@@ -13,25 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.openshift.booster.service;
 
-// tag::snippet-greeting[]
-public class Greeting {
+package landister.magic.datacollector;
 
-    public static final String FORMAT = "Hello, %s!";
+import java.net.URL;
+import org.arquillian.cube.openshift.impl.enricher.AwaitRoute;
+import org.arquillian.cube.openshift.impl.enricher.RouteURL;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.runner.RunWith;
 
-    private final String content;
+@RunWith(Arquillian.class)
+public class OpenShiftIT extends AbstractBoosterApplicationTest {
 
-    public Greeting() {
-        this.content = null;
-    }
+    @AwaitRoute(path = "/health")
+    @RouteURL("${app.name}")
+    private URL baseURL;
 
-    public Greeting(String content) {
-        this.content = content;
-    }
-
-    public String getContent() {
-        return content;
+    @Override
+    public String baseURI() {
+        return baseURL.toString();
     }
 }
-// end::snippet-greeting[]

@@ -13,39 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.openshift.booster;
+package landister.magic.datacollector;
+
+import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.core.Is.is;
-
-import io.openshift.booster.service.Greeting;
-import org.junit.Test;
+import static org.hamcrest.core.IsAnything.anything;
 
 public abstract class AbstractBoosterApplicationTest {
 
-    private static final String GREETING_PATH = "api/greeting";
+    private static final String GAME_PATH = "api/game";
 
     @Test
     public void testGreetingEndpoint() {
         given()
            .baseUri(baseURI())
-           .get(GREETING_PATH)
+           .get(GAME_PATH)
            .then()
            .statusCode(200)
-           .body("content", is(String.format(Greeting.FORMAT, "World")));
+           .body("content", anything());
     }
-
-    @Test
-    public void testGreetingEndpointWithNameParameter() {
-        given()
-           .baseUri(baseURI())
-           .param("name", "John")
-           .when()
-           .get(GREETING_PATH)
-           .then()
-           .statusCode(200)
-           .body("content", is(String.format(Greeting.FORMAT, "John")));
-    }
-
     protected abstract String baseURI();
 }
